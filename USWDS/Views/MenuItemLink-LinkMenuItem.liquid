@@ -1,0 +1,11 @@
+{% assign link = Model.ContentItem.Content.LinkMenuItemPart %}
+
+{% if Model.HasItems %}
+    <!-- <a href="{{ link.Url | href }}" class="usa-nav__link">{{ link.Name }}</a> -->
+    <!-- <li class="usa-nav__submenu-item"> -->
+    <button class="usa-accordion__button usa-nav__link" aria-expanded="false"
+        aria-controls="basic-nav-section-one"><span>{{ link.Name }}</span></button>
+    <!-- </li> -->
+{% else %}
+    <a href="{{ link.Url | href }}" class="usa-nav__link">{{ link.Name }}</a>
+{% endif %}

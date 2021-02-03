@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="{{ Culture.Name }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ "PageTitle" | shape_new | shape_stringify }}</title>
+    {% resources type: "Meta" %}
+    {% link type:"image/x-icon", rel:"shortcut icon", href:"~/USWDS/favicon.ico" %}
+
+    <!-- Custom fonts for this template -->
+
+    <!-- Custom styles for this template -->
+    <!-- {% style src:"~/USWDS/css/styles.css", debug_src:"~/USWDS/css/styles.css", at:"Head" %} -->
+    {% link rel:"stylesheet", href:"~/USWDS/css/styles.css" %}
+
+    <!-- Custom scripts for this template -->
+    {% script src:"~/USWDS/js/uswds-init.min.js", debug_src:"~/USWDS/js/uswds-init.min.js", at:"Head" %}
+    {% script src:"~/USWDS/js/uswds.min.js", debug_src:"~/USWDS/js/uswds.js", at:"Head" %}
+
+    {% resources type: "HeadScript" %}
+    {% resources type: "HeadLink" %}
+    {% resources type: "Stylesheet" %}
+    {% render_section "HeadMeta", required: false %}
+</head>
+
+<body dir="{{ Culture.Dir }}" class="">
+
+    <header class="usa-header usa-header--basic">
+        
+        <div class="usa-nav-container">
+            <div class="usa-navbar">
+                <div class="usa-logo" id="basic-logo">
+                    <em class="usa-logo__text"><a href="{{ '~/' | href }}" title="Home" aria-label="Home">{{
+                            Site.SiteName }}</a></em>
+                </div>
+                <button class="usa-menu-btn">Menu</button>
+            </div>
+            <nav aria-label="Primary navigation" class="usa-nav">
+                <button class="usa-nav__close"><img src="../../dist/img/close.svg" role="img" alt="close"></button>
+                {% shape "menu", alias: "alias:main-menu", cache_id: "main-menu", cache_fixed_duration: "00:05:00",
+                cache_tag: "alias:main-menu" %}
+                
+                <form class="usa-search usa-search--small " role="search" action="{{ "~/search" | href }}" method="get">
+                    <label class="usa-sr-only" for="basic-search-field-small">Search small</label>
+                    <input class="usa-input" id="basic-search-field-small" type="search" name="Terms" value="{{ Model.Terms }}" placeholder="{{ " " | t }}">
+                    <button class="usa-button" type="submit"><span class="usa-sr-only">{{ "Search" | t }}</span></button>
+                </form>
+            </nav>
+        </div>
+    </header>
+
+    {% render_section "Header", required: false %}
+
+    {% render_section "Messages", required: false %}
+    {% render_body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- This widget is configured in the layers section -->
+    <footer class="usa-footer">
+        {% render_section "Footer", required: false %}
+    </footer>
+
+
+    {% resources type: "FootScript" %}
+    <script>
+
+        (() => {
+
+            const els  = document.getElementsByClassName("usa-nav__primary-item");
+
+            [].forEach.call(els, function (el) {
+                try {
+                    if(new URL(el.firstElementChild.href).hostname === window.location.hostname) {
+                        if(new URL(el.firstElementChild.href).pathname.split('/')[1] == window.location.pathname.split('/')[1]) {
+
+                            //to add usa-current to current menu
+                            el.firstElementChild.classList.add("usa-current");
+                            console.log(el);
+                            console.log(el.firstElementChild.href);
+                            console.log(el.firstElementChild.innerHTML);
+                            console.log(new URL(el.firstElementChild.href).pathname);
+                        }
+                    }
+
+                } catch (error) {
+                    return;
+                }
+            });
+
+            console.log('Menu Script');
+        })();
+
+    </script>
+
+
+</body>
+
+</html>

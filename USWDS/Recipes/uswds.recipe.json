@@ -1,0 +1,2474 @@
+{
+  "name": "USWDS",
+  "displayName": "USWDS",
+  "description": "",
+  "author": "USWDS",
+  "website": "",
+  "version": "1.0.0-rc2",
+  "issetuprecipe": true,
+  "categories": [ "default" ],
+  "tags": [ "USWDS" ],
+
+
+  "variables": {
+    "adminUrlPrefix": "[js: configuration('OrchardCore_Admin:AdminUrlPrefix', 'Admin')]",
+    "blogContentItemId": "[js:uuid()]",
+    "menuContentItemId": "[js:uuid()]",
+    "tagsContentItemId": "[js:uuid()]",
+    "tagContentItemId": "[js:uuid()]",
+    "earthTagContentItemId": "[js:uuid()]",
+    "explorationTagContentItemId": "[js:uuid()]",
+    "spaceTagContentItemId": "[js:uuid()]",
+    "categoriesContentItemId": "[js:uuid()]",
+    "categoryTravelContentItemId": "[js:uuid()]"
+  },
+
+  "steps": [
+    {
+      "name": "ContentDefinition",
+      "ContentTypes": [
+        {
+          "Name": "Menu",
+          "DisplayName": "Menu",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "AliasPart",
+              "Name": "AliasPart",
+              "Settings": {
+                "AliasPartSettings": {
+                  "Pattern": "{{ ContentItem | display_text | slugify }}"
+                },
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "MenuPart",
+              "Name": "MenuPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "MenuItemsListPart",
+              "Name": "MenuItemsListPart",
+              "Settings": {}
+            }
+          ]
+        },
+        {
+          "Name": "LinkMenuItem",
+          "DisplayName": "Link Menu Item",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Stereotype": "MenuItem"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "LinkMenuItemPart",
+              "Name": "LinkMenuItemPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "LinkMenuItem",
+              "Name": "LinkMenuItem",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "ContentMenuItem",
+          "DisplayName": "Content Menu Item",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Stereotype": "MenuItem"
+            },
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "ContentMenuItemPart",
+              "Name": "ContentMenuItemPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "ContentMenuItem",
+              "Name": "ContentMenuItem",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Taxonomy",
+          "DisplayName": "Taxonomy",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "AliasPart",
+              "Name": "AliasPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                },
+                "AliasPartSettings": {
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                },
+                "AutoroutePartSettings": {
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "AllowRouteContainedItems": true
+                }
+              }
+            },
+            {
+              "PartName": "TaxonomyPart",
+              "Name": "TaxonomyPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "4"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Article",
+          "DisplayName": "Article",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Listable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Article",
+              "Name": "Article",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ShowHomepageOption": true
+                },
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "HtmlBodyPart",
+              "Name": "HtmlBodyPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Editor": "Wysiwyg",
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "LiquidPage",
+          "DisplayName": "Liquid Page",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Listable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "LiquidPage",
+              "Name": "LiquidPage",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ShowHomepageOption": true
+                },
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "LiquidPart",
+              "Name": "LiquidPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "BlogPost",
+          "DisplayName": "Blog Post",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Draftable": true,
+              "Versionable": true
+            },
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | container | display_text | slugify }}/{{ Model.ContentItem | display_text | slugify }}",
+                  "ShowHomepageOption": false
+                }
+              }
+            },
+            {
+              "PartName": "BlogPost",
+              "Name": "BlogPost",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "HtmlBodyPart",
+              "Name": "HtmlBodyPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3",
+                  "Editor": "Trumbowyg"
+                },
+                "HtmlBodyPartSettings": {},
+                "HtmlBodyPartTrumbowygEditorSettings": {
+                  "Options": "{\r\n    autogrow: true,\r\n    btns: [\r\n        [\"viewHTML\"],\r\n        [\"undo\", \"redo\"],\r\n        [\"formatting\"],\r\n        [\"strong\", \"em\", \"del\"],\r\n        [\"foreColor\", \"backColor\"],\r\n        [\"superscript\", \"subscript\"],\r\n        [\"link\"],\r\n        [\"image\"],\r\n        [\"align\"],\r\n        [\"unorderedList\", \"orderedList\"],\r\n        [\"horizontalRule\"],\r\n        [\"removeformat\"],\r\n        [\"fullscreen\"]\r\n    ],\r\n    btnsDef: {\r\n        align: {\r\n            dropdown: [\"justifyLeft\", \"justifyCenter\", \"justifyRight\", \"justifyFull\"],\r\n            ico: \"justifyLeft\"\r\n        },\r\n        image: {\r\n            dropdown: [\"insertImage\", \"base64\", \"noembed\"],\r\n            ico: \"insertImage\"\r\n        }\r\n    }\r\n}"
+                },
+                "ContentIndexSettings": {}
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Blog",
+          "DisplayName": "Blog",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true
+            },
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                },
+                "ContentIndexSettings": {
+                  "Included": false,
+                  "Stored": false,
+                  "Analyzed": false,
+                  "Sanitized": false,
+                  "Tokenized": false,
+                  "Template": null
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ShowHomepageOption": true
+                }
+              }
+            },
+            {
+              "PartName": "Blog",
+              "Name": "Blog",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "PartName": "HtmlBodyPart",
+              "Name": "HtmlBodyPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "ListPart",
+              "Name": "ListPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "4"
+                },
+                "ListPartSettings": {
+                  "PageSize": 10,
+                  "ContainedContentTypes": [
+                    "BlogPost"
+                  ]
+                },
+                "ContentIndexSettings": {}
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Container",
+          "DisplayName": "Container",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true,
+              "Stereotype": "Widget"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Container",
+              "Name": "Container",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "FlowPart",
+              "Name": "FlowPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Blockquote",
+          "DisplayName": "Blockquote",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true,
+              "Stereotype": "Widget"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Blockquote",
+              "Name": "Blockquote",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "ImageWidget",
+          "DisplayName": "Image",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true,
+              "Stereotype": "Widget"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Image",
+              "Name": "Image",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "LiquidWidget",
+          "DisplayName": "Liquid",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true,
+              "Listable": true,
+              "Stereotype": "Widget"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "LiquidPart",
+              "Name": "LiquidPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Image",
+          "DisplayName": "Image",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Versionable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Image",
+              "Name": "Image",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Paragraph",
+          "DisplayName": "Paragraph",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true,
+              "Stereotype": "Widget"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Paragraph",
+              "Name": "Paragraph",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "RawHtml",
+          "DisplayName": "Raw Html",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true,
+              "Stereotype": "Widget"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "RawHtml",
+              "Name": "RawHtml",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Page",
+          "DisplayName": "Page",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Listable": true,
+              "Securable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Page",
+              "Name": "Page",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ShowHomepageOption": true
+                }
+              }
+            },
+            {
+              "PartName": "FlowPart",
+              "Name": "FlowPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Tag",
+          "DisplayName": "Tag",
+          "Settings": {
+            "ContentTypeSettings": {},
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Tag",
+              "Name": "Tag",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ManageContainedItemRoutes": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Category",
+          "DisplayName": "Category",
+          "Settings": {
+            "ContentTypeSettings": {},
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Category",
+              "Name": "Category",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "ManageContainedItemRoutes": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "LandingPage",
+          "DisplayName": "Landing Page",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true
+            },
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "LandingPage",
+              "Name": "LandingPage",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                },
+                "ContentIndexSettings": {
+                  "Included": true
+                },
+                "TitlePartSettings": {}
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                },
+                "AutoroutePartSettings": {
+                  "ShowHomepageOption": true
+                },
+                "ContentIndexSettings": {}
+              }
+            },
+            {
+              "PartName": "BagPart",
+              "Name": "BagPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "DisplayName": "Bag",
+                  "Description": "Provides a collection behavior for your content item.",
+                  "Position": "3"
+                },
+                "BagPartSettings": {
+                  "ContainedContentTypes": [
+                    "BlockquoteSection"
+                  ]
+                },
+                "ContentIndexSettings": {}
+              }
+            }
+          ]
+        },
+        {
+          "Name": "BlockquoteSection",
+          "DisplayName": "Blockquote Section",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true
+            },
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "BlockquoteSection",
+              "Name": "BlockquoteSection",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "HtmlBodyPart",
+              "Name": "HtmlBodyPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "ContentParts": [
+        {
+          "Name": "LiquidPart",
+          "Settings": {
+            "ContentPartSettings": {}
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "CommonPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides an editor for the common properties of a content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "AliasPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a way to define custom aliases for content items."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "AutoroutePart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a custom url for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "PreviewPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a way to define the url that is used to render your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "WidgetsListPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a way to add widgets per content items."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "FlowPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a customizable body for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "BagPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": true,
+              "Description": "Provides a collection behavior for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "HtmlBodyPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides an HTML Body for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "ListPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Add a list behavior."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "MarkdownBodyPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a Markdown formatted body for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "TitlePart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a Title for your content item.",
+              "DefaultPosition": "0"
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "MenuPart",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "MenuItemPart",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "LinkMenuItemPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a menu link behavior for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "ContentMenuItemPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "DisplayName": "Content Menu Item",
+              "Description": "Provides a menu link behavior with the Content Picker for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "ContentPickerField",
+              "Name": "SelectedContentItem",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Selected Content Item",
+                  "Position": "0"
+                },
+                "ContentPickerFieldSettings": {
+                  "Required": true,
+                  "DisplayAllContentTypes": true,
+                  "DisplayedContentTypes": []
+                },
+                "ContentIndexSettings": {}
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Blog",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "MediaField",
+              "Name": "Image",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Banner Image",
+                  "Position": "0"
+                },
+                "ContentIndexSettings": {
+                  "Included": false,
+                  "Stored": false,
+                  "Analyzed": false,
+                  "Sanitized": false,
+                  "Tokenized": false,
+                  "Template": null
+                },
+                "MediaFieldSettings": {
+                  "Multiple": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "BlogPost",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "MediaField",
+              "Name": "Image",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Banner Image",
+                  "Position": "2"
+                },
+                "ContentIndexSettings": {
+                  "Included": false,
+                  "Stored": false,
+                  "Analyzed": false,
+                  "Sanitized": false,
+                  "Tokenized": false,
+                  "Template": null
+                },
+                "MediaFieldSettings": {
+                  "Multiple": false
+                }
+              }
+            },
+            {
+              "FieldName": "TaxonomyField",
+              "Name": "Tags",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Tags",
+                  "Editor": "Tags",
+                  "DisplayMode": "Tags",
+                  "Position": "3"
+                },
+                "ContentIndexSettings": {},
+                "TaxonomyFieldSettings": {
+                  "TaxonomyContentItemId": "4edc1rjkp8kbp4f4d35gn1ygdt"
+                },
+                "TaxonomyFieldTagsEditorSettings": {}
+              }
+            },
+            {
+              "FieldName": "TaxonomyField",
+              "Name": "Category",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Category",
+                  "Position": "4"
+                },
+                "ContentIndexSettings": {},
+                "TaxonomyFieldSettings": {
+                  "TaxonomyContentItemId": "45z057jz6cpm6tjz323h1zevcj",
+                  "Unique": true,
+                  "LeavesOnly": true
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Summary",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Summary",
+                  "Editor": "TextArea",
+                  "Position": "1"
+                },
+                "TextFieldSettings": {},
+                "ContentIndexSettings": {}
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Article",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "TextField",
+              "Name": "Subtitle",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Subtitle",
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "FieldName": "MediaField",
+              "Name": "Image",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Banner Image",
+                  "Position": "0"
+                },
+                "MediaFieldSettings": {
+                  "Multiple": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Blockquote",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "TextField",
+              "Name": "Quote",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Quote",
+                  "Editor": "TextArea",
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Image",
+          "Settings": {
+            "Attachable": true
+          },
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "MediaField",
+              "Name": "Media",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Image",
+                  "Position": "0"
+                },
+                "MediaFieldSettings": {
+                  "Multiple": false,
+                  "Required": true
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Caption",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Caption",
+                  "Position": "1"
+                },
+                "TextFieldSettings": {
+                  "Hint": "A description of the image used as title or alternate text"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Paragraph",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "HtmlField",
+              "Name": "Content",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Content",
+                  "Position": "0",
+                  "Editor": "Wysiwyg"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "RawHtml",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "HtmlField",
+              "Name": "Content",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Content",
+                  "Position": "0",
+                  "Editor": "Multiline"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Category",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "TextField",
+              "Name": "Icon",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Icon",
+                  "Editor": "IconPicker",
+                  "Position": "0"
+                },
+                "TextFieldSettings": {
+                  "Required": true
+                },
+                "ContentIndexSettings": {}
+              }
+            }
+          ]
+        },
+        {
+          "Name": "LandingPage",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "TextField",
+              "Name": "Herocallout",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Hero callout",
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Supportcallout",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Support callout",
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Calltoaction",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Call to action",
+                  "Position": "4"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Taglinehighlight",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Tagline highlight",
+                  "Position": "5"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Tagline",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Tagline",
+                  "Position": "6"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Sectionheading",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Section heading",
+                  "Position": "7"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Sectiontext",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Section text",
+                  "Position": "8"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Sectioncalltoaction",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Section call to action",
+                  "Position": "9"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Textcallout",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Text callout",
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "FieldName": "MediaField",
+              "Name": "HeroImage",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Hero Image",
+                  "Position": "1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "BlockquoteSection",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "MediaField",
+              "Name": "BlockquoteSectionImage",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "BlockquoteSectionImage",
+                  "Position": "0"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "custom-settings"
+    },
+    {
+      "name": "lucene-index",
+      "Indices": [
+        {
+          "Search": {
+            "AnalyzerName": "standardanalyzer",
+            "IndexLatest": false,
+            "IndexedContentTypes": [
+              "Article",
+              "Blockquote",
+              "Blog",
+              "BlogPost",
+              "Button",
+              "Container",
+              "Form",
+              "ImageWidget",
+              "Image",
+              "Input",
+              "Label",
+              "LinkMenuItem",
+              "LiquidWidget",
+              "LiquidPage",
+              "Menu",
+              "Page",
+              "Paragraph",
+              "RawHtml",
+              "Select",
+              "TextArea",
+              "Validation",
+              "ValidationSummary"
+            ],
+            "Culture": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "Queries",
+      "Queries": [
+        {
+          "Index": "Search",
+          "Template": "{\r\n  \"query\": {\r\n    \"term\": { \"Content.ContentItem.ContentType\": \"BlogPost\" }\r\n  },\r\n  \"sort\": {\r\n    \"Content.ContentItem.CreatedUtc\": {\r\n      \"order\": \"desc\",\r\n      \"type\": \"double\"\r\n    }\r\n  },\r\n  \"size\": 3\r\n}\r\n",
+          "ReturnContentItems": true,
+          "Name": "RecentBlogPosts",
+          "Source": "Lucene",
+          "Schema": "{\r\n    \"type\": \"ContentItem/BlogPost\"\r\n}"
+        }
+      ]
+    },
+    {
+      "name": "Roles",
+      "Roles": [
+        {
+          "Name": "Moderator",
+          "Description": "Moderator role",
+          "Permissions": [
+            "AccessAdminPanel"
+          ]
+        },
+        {
+          "Name": "Authenticated",
+          "Description": "Authenticated role",
+          "Permissions": [
+            "ViewContent"
+          ]
+        },
+        {
+          "Name": "Author",
+          "Description": "Author role",
+          "Permissions": [
+            "AccessAdminPanel",
+            "PublishOwnContent",
+            "EditOwnContent",
+            "DeleteOwnContent",
+            "PreviewOwnContent",
+            "CloneOwnContent",
+            "ManageOwnMedia"
+          ]
+        },
+        {
+          "Name": "Contributor",
+          "Description": "Contributor role",
+          "Permissions": [
+            "AccessAdminPanel",
+            "EditOwnContent",
+            "PreviewOwnContent",
+            "CloneOwnContent",
+            "ManageOwnMedia"
+          ]
+        },
+        {
+          "Name": "Editor",
+          "Description": "Editor role",
+          "Permissions": [
+            "AccessAdminPanel",
+            "ManageCultures",
+            "ManageAdminMenu",
+            "PublishContent",
+            "EditContent",
+            "DeleteContent",
+            "PreviewContent",
+            "CloneContent",
+            "ManageTemplates",
+            "QueryLuceneApi",
+            "ManageMediaContent",
+            "ManageQueries"
+          ]
+        },
+        {
+          "Name": "Administrator",
+          "Description": "Administrator role",
+          "Permissions": [
+            "ManageSettings",
+            "AccessAdminPanel",
+            "ManageAdminSettings",
+            "ManageCultures",
+            "ManageUsers",
+            "ManageRoles",
+            "AssignRoles",
+            "SiteOwner",
+            "ManageTenants",
+            "ApplyTheme",
+            "ManageAdminMenu",
+            "PublishContent",
+            "EditContent",
+            "DeleteContent",
+            "PreviewContent",
+            "CloneContent",
+            "AccessContentApi",
+            "ManageTemplates",
+            "ManageAdminTemplates",
+            "ViewContentTypes",
+            "EditContentTypes",
+            "SetHomepage",
+            "ContentPreview",
+            "Import",
+            "Export",
+            "ManageLayers",
+            "ManageIndexes",
+            "ManageMediaContent",
+            "ManageAttachedMediaFieldsFolder",
+            "ManageMenu",
+            "ManageQueries",
+            "ManageTaxonomy"
+          ]
+        },
+        {
+          "Name": "Anonymous",
+          "Description": "Anonymous role",
+          "Permissions": [
+            "ViewContent",
+            "QueryLuceneSearchIndex"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Feature",
+      "enable": [
+        "Application.Default",
+        "DataCognitionAdmin.Web",
+        "OrchardCore.Settings",
+        "OrchardCore.Admin",
+        "OrchardCore.AdminMenu",
+        "OrchardCore.Contents",
+        "OrchardCore.ShortCodes",
+        "OrchardCore.Liquid",
+        "OrchardCore.Templates",
+        "OrchardCore.ContentTypes",
+        "OrchardCore.Alias",
+        "OrchardCore.Autoroute",
+        "OrchardCore.ContentFields",
+        "OrchardCore.Localization",
+        "OrchardCore.ContentPreview",
+        "OrchardCore.Contents.FileContentDefinition",
+        "OrchardCore.CustomSettings",
+        "OrchardCore.Deployment",
+        "OrchardCore.Deployment.Remote",
+        "OrchardCore.Diagnostics",
+        "OrchardCore.DynamicCache",
+        "OrchardCore.Resources",
+        "OrchardCore.Widgets",
+        "OrchardCore.Features",
+        "OrchardCore.Feeds",
+        "OrchardCore.Flows",
+        "OrchardCore.HomeRoute",
+        "OrchardCore.Html",
+        "OrchardCore.Indexing",
+        "OrchardCore.Scripting",
+        "OrchardCore.Layers",
+        "OrchardCore.Lists",
+        "OrchardCore.Lucene",
+        "OrchardCore.Markdown",
+        "OrchardCore.Media",
+        "OrchardCore.Title",
+        "OrchardCore.Menu",
+        "OrchardCore.Navigation",
+        "OrchardCore.Queries",
+        "OrchardCore.Users",
+        "OrchardCore.Recipes",
+        "OrchardCore.Roles",
+        "OrchardCore.Taxonomies",
+        "OrchardCore.Tenants",
+        "OrchardCore.Themes",
+        "SafeMode",
+        "TheAdmin",
+        "TheAgencyTheme",
+        "TheBlogTheme",
+        "TheComingSoonTheme",
+        "TheTheme",
+        "USWDS"
+      ],
+      "disable": [
+        "OrchardCore.AdminTemplates",
+        "OrchardCore.Apis.GraphQL",
+        "OrchardCore.BackgroundTasks",
+        "OrchardCore.ContentFields.Indexing.SQL",
+        "OrchardCore.ContentLocalization",
+        "OrchardCore.ContentLocalization.ContentCulturePicker",
+        "OrchardCore.Sitemaps",
+        "OrchardCore.ContentLocalization.Sitemaps",
+        "OrchardCore.DataProtection.Azure",
+        "OrchardCore.Email",
+        "OrchardCore.Facebook",
+        "OrchardCore.Facebook.Login",
+        "OrchardCore.Facebook.Widgets",
+        "OrchardCore.Forms",
+        "OrchardCore.GitHub.Authentication",
+        "OrchardCore.Google.Analytics",
+        "OrchardCore.Google.GoogleAuthentication",
+        "OrchardCore.HealthChecks",
+        "OrchardCore.Https",
+        "OrchardCore.Lucene.ContentPicker",
+        "OrchardCore.Lucene.Worker",
+        "OrchardCore.Media.Cache",
+        "OrchardCore.Media.Azure.Storage",
+        "OrchardCore.Microsoft.Authentication.AzureAD",
+        "OrchardCore.Microsoft.Authentication.MicrosoftAccount",
+        "OrchardCore.MiniProfiler",
+        "OrchardCore.OpenId",
+        "OrchardCore.OpenId.Client",
+        "OrchardCore.OpenId.Management",
+        "OrchardCore.OpenId.Server",
+        "OrchardCore.OpenId.Validation",
+        "OrchardCore.PublishLater",
+        "OrchardCore.Queries.Sql",
+        "OrchardCore.ReCaptcha",
+        "OrchardCore.ReCaptcha.Users",
+        "OrchardCore.XmlRpc",
+        "OrchardCore.RemotePublishing",
+        "OrchardCore.ResponseCompression",
+        "OrchardCore.ReverseProxy",
+        "OrchardCore.Setup",
+        "OrchardCore.Sitemaps.RazorPages",
+        "OrchardCore.Tenants.FileProvider",
+        "OrchardCore.Twitter",
+        "OrchardCore.Twitter.Signin",
+        "OrchardCore.Users.ChangeEmail",
+        "OrchardCore.Users.Registration",
+        "OrchardCore.Users.ResetPassword",
+        "OrchardCore.Users.TimeZone",
+        "OrchardCore.Workflows",
+        "OrchardCore.Workflows.Http",
+        "OrchardCore.Workflows.Timers",
+        "VerseeTheme"
+      ]
+    },
+    {
+      "name": "Settings",
+      "HomeRoute": {
+        "Action": "Display",
+        "Controller": "Item",
+        "Area": "OrchardCore.Contents",
+        "contentItemId": "4p4dmr6zj1pv8rrr988wa5b2np"
+      },
+      "AppendVersion": true
+    },
+    {
+      "name": "Layers",
+      "Layers": [
+        {
+          "Name": "Always",
+          "Rule": "true",
+          "Description": "The widgets in this layer are displayed on any page of this site."
+        },
+        {
+          "Name": "Homepage",
+          "Rule": "isHomepage()",
+          "Description": "The widgets in this layer are only displayed on the homepage."
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "LayerSettings": {
+        "Zones": [
+          "Content",
+          "Footer"
+        ]
+      }
+    },
+    {
+      "name": "Themes",
+      "Site": "USWDS",
+      "Admin": "TheAdmin"
+    },
+    {
+      "name": "AdminMenu",
+      "data": [
+        {
+          "Id": "1240e315bf144b59ad32a9152bb12fbb",
+          "Name": "Admin menu from blog recipe",
+          "Enabled": true,
+          "MenuItems": [
+            {
+              "$type": "OrchardCore.AdminMenu.AdminNodes.LinkAdminNode, OrchardCore.AdminMenu",
+              "LinkText": "Blog",
+              "LinkUrl": "Admin/Contents/ContentItems/4r0x1czkfkz5526fj9rymysxm0/Display",
+              "IconClass": "fas fa-rss",
+              "UniqueId": "7b293d57056a4eebb3713f07f12c65d8",
+              "Enabled": true,
+              "Text": null,
+              "Id": null,
+              "Href": null,
+              "Url": null,
+              "Position": null,
+              "Priority": 0,
+              "LinkToFirstChild": true,
+              "LocalNav": false,
+              "Culture": null,
+              "Resource": null,
+              "Items": [],
+              "RouteValues": null,
+              "Permissions": [],
+              "Classes": []
+            },
+            {
+              "$type": "OrchardCore.AdminMenu.AdminNodes.LinkAdminNode, OrchardCore.AdminMenu",
+              "LinkText": "Main Menu",
+              "LinkUrl": "Admin/Contents/ContentItems/4gqncb0bwyhw63a4z47w6w744q/Edit",
+              "IconClass": "fas fa-sitemap",
+              "UniqueId": "5118cecfde834dacb26ac08980f1b5a7",
+              "Enabled": true,
+              "Text": null,
+              "Id": null,
+              "Href": null,
+              "Url": null,
+              "Position": null,
+              "Priority": 0,
+              "LinkToFirstChild": true,
+              "LocalNav": false,
+              "Culture": null,
+              "Resource": null,
+              "Items": [],
+              "RouteValues": null,
+              "Permissions": [],
+              "Classes": []
+            },
+            {
+              "$type": "OrchardCore.AdminMenu.AdminNodes.PlaceholderAdminNode, OrchardCore.AdminMenu",
+              "LinkText": "Content",
+              "IconClass": null,
+              "UniqueId": "3e590d44f8704e4588e272dd966ce291",
+              "Enabled": true,
+              "Text": null,
+              "Id": null,
+              "Href": null,
+              "Url": null,
+              "Position": null,
+              "Priority": 0,
+              "LinkToFirstChild": true,
+              "LocalNav": false,
+              "Culture": null,
+              "Resource": null,
+              "Items": [
+                {
+                  "$type": "OrchardCore.AdminMenu.AdminNodes.LinkAdminNode, OrchardCore.AdminMenu",
+                  "LinkText": "Content Items",
+                  "LinkUrl": "Admin/Contents/ContentItems/",
+                  "IconClass": null,
+                  "UniqueId": "7b293d57056a4eebb3713f07f12c65d9",
+                  "Enabled": true,
+                  "Text": null,
+                  "Id": null,
+                  "Href": null,
+                  "Url": null,
+                  "Position": "0",
+                  "Priority": 0,
+                  "LinkToFirstChild": true,
+                  "LocalNav": false,
+                  "Culture": null,
+                  "Resource": null,
+                  "Items": [],
+                  "RouteValues": null,
+                  "Permissions": [],
+                  "Classes": []
+                },
+                {
+                  "$type": "OrchardCore.AdminMenu.AdminNodes.PlaceholderAdminNode, OrchardCore.AdminMenu",
+                  "LinkText": "Content Types",
+                  "IconClass": null,
+                  "UniqueId": "2f1fc33133334a1abf7d1a0516ee8b4e",
+                  "Enabled": true,
+                  "Text": null,
+                  "Id": null,
+                  "Href": null,
+                  "Url": null,
+                  "Position": "1",
+                  "Priority": 50,
+                  "LinkToFirstChild": true,
+                  "LocalNav": false,
+                  "Culture": null,
+                  "Resource": null,
+                  "Items": [
+                    {
+                      "$type": "OrchardCore.Contents.AdminNodes.ContentTypesAdminNode, OrchardCore.Contents",
+                      "ShowAll": true,
+                      "IconClass": null,
+                      "ContentTypes": [],
+                      "UniqueId": "ee18224e1b814c638b0732678b74cfd9",
+                      "Enabled": true,
+                      "Text": null,
+                      "Id": null,
+                      "Href": null,
+                      "Url": null,
+                      "Position": null,
+                      "Priority": 0,
+                      "LinkToFirstChild": true,
+                      "LocalNav": false,
+                      "Culture": null,
+                      "Resource": null,
+                      "Items": [],
+                      "RouteValues": null,
+                      "Permissions": [],
+                      "Classes": []
+                    }
+                  ],
+                  "RouteValues": null,
+                  "Permissions": [],
+                  "Classes": []
+                }
+              ],
+              "RouteValues": null,
+              "Permissions": [],
+              "Classes": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "content",
+      "data": [
+        {
+          "ContentItemId": "4edc1rjkp8kbp4f4d35gn1ygdt",
+          "ContentItemVersionId": "4yf22mhcxbp7x0zmwe3jmxhcmt",
+          "ContentType": "Taxonomy",
+          "DisplayText": "Tags",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2020-08-20T19:22:00.7902205Z",
+          "PublishedUtc": "2020-08-20T19:22:01.7833473Z",
+          "CreatedUtc": "2020-08-20T19:22:00.788104Z",
+          "Owner": "edtorr",
+          "Author": "edtorr",
+          "TitlePart": {
+            "Title": "Tags"
+          },
+          "AliasPart": {
+            "Alias": "tags"
+          },
+          "TaxonomyPart": {
+            "Terms": [
+              {
+                "ContentItemId": "44waxp78x1y9nwx6nfc38kapn1",
+                "ContentType": "Tag",
+                "DisplayText": "Earth",
+                "TitlePart": {
+                  "Title": "Earth"
+                },
+                "AutoroutePart": {
+                  "Path": "earth"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "4edc1rjkp8kbp4f4d35gn1ygdt"
+                }
+              },
+              {
+                "ContentItemId": "4hdgyqc2cm4mx66mvpdygnne5p",
+                "ContentType": "Tag",
+                "DisplayText": "Exploration",
+                "TitlePart": {
+                  "Title": "Exploration"
+                },
+                "AutoroutePart": {
+                  "Path": "exploration"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "4edc1rjkp8kbp4f4d35gn1ygdt"
+                }
+              },
+              {
+                "ContentItemId": "4phfwz134qrt37a2wvykqfrjwd",
+                "ContentType": "Tag",
+                "DisplayText": "Space",
+                "TitlePart": {
+                  "Title": "Space"
+                },
+                "AutoroutePart": {
+                  "Path": "space"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "4edc1rjkp8kbp4f4d35gn1ygdt"
+                }
+              }
+            ],
+            "TermContentType": "Tag"
+          },
+          "AutoroutePart": {
+            "Path": "tags",
+            "RouteContainedItems": true
+          }
+        },
+        {
+          "ContentItemId": "45z057jz6cpm6tjz323h1zevcj",
+          "ContentItemVersionId": "4brk483kzq3pezxayy67z390c2",
+          "ContentType": "Taxonomy",
+          "DisplayText": "Categories",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2020-08-20T19:22:01.8114257Z",
+          "PublishedUtc": "2020-08-20T19:22:02.7812713Z",
+          "CreatedUtc": "2020-08-20T19:22:01.8113238Z",
+          "Owner": "edtorr",
+          "Author": "edtorr",
+          "TitlePart": {
+            "Title": "Categories"
+          },
+          "AliasPart": {
+            "Alias": "categories"
+          },
+          "TaxonomyPart": {
+            "Terms": [
+              {
+                "ContentItemId": "47yte49qmkf373t1p2xm4wnkx2",
+                "ContentType": "Category",
+                "DisplayText": "Travel",
+                "Category": {
+                  "Icon": {
+                    "Text": "fas fa-globe-americas"
+                  }
+                },
+                "TitlePart": {
+                  "Title": "Travel"
+                },
+                "AutoroutePart": {
+                  "Path": "travel"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "45z057jz6cpm6tjz323h1zevcj"
+                }
+              }
+            ],
+            "TermContentType": "Category"
+          },
+          "AutoroutePart": {
+            "Path": "categories",
+            "RouteContainedItems": true
+          }
+        },
+        {
+          "ContentItemId": "422mgvmg9cae613z4akzzze5c5",
+          "ContentItemVersionId": "44za459a5adtjsn6qzsqnnb8w3",
+          "ContentType": "Article",
+          "DisplayText": "About",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2020-08-20T19:22:04.490955Z",
+          "PublishedUtc": "2020-08-20T19:22:05.3458601Z",
+          "CreatedUtc": "2020-08-20T19:22:04.49087Z",
+          "Owner": "edtorr",
+          "Author": "edtorr",
+          "AutoroutePart": {
+            "Path": "about",
+            "SetHomepage": false
+          },
+          "HtmlBodyPart": {
+            "Html": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum molestiae debitis nobis, quod sapiente qui voluptatum, placeat magni repudiandae accusantium fugit quas labore non rerum possimus, corrupti enim modi! Et.</p>"
+          },
+          "TitlePart": {
+            "Title": "About"
+          },
+          "Article": {
+            "Subtitle": {
+              "Text": "This is what I do."
+            },
+            "Image": {
+              "Paths": [
+                "about-bg.jpg"
+              ]
+            }
+          }
+        },
+        {
+          "ContentItemId": "4p4dmr6zj1pv8rrr988wa5b2np",
+          "ContentItemVersionId": "48dh79tzc7c6v4066337ahc6n2",
+          "ContentType": "LandingPage",
+          "DisplayText": "Landing Page",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-02-03T14:24:35.083291Z",
+          "PublishedUtc": "2021-02-03T14:24:37.5968639Z",
+          "CreatedUtc": "2021-01-28T20:03:02.5530297Z",
+          "Owner": "edtorr",
+          "Author": "edtorr",
+          "LandingPage": {
+            "Herocallout": {
+              "Text": "Hero callout:"
+            },
+            "Supportcallout": {
+              "Text": "Bring attention to a project priority"
+            },
+            "Calltoaction": {
+              "Text": "Call to action"
+            },
+            "Taglinehighlight": {
+              "Text": "A tagline highlights your approach"
+            },
+            "Tagline": {
+              "Text": "The tagline should inspire confidence and interest, focusing on the value that your overall approach offers to your audience. Use a heading typeface and keep your tagline to just a few words, and don’t confuse or mystify.  Use the right side of the grid to explain the tagline a bit more. What are your goals? How do you do your work? Write in the present tense, and stay brief here. People who are interested can find details on internal pages."
+            },
+            "Sectionheading": {
+              "Text": "Section heading"
+            },
+            "Sectiontext": {
+              "Text": "Section text"
+            },
+            "Sectioncalltoaction": {
+              "Text": "Section call to action"
+            },
+            "Textcallout": {
+              "Text": "Support the callout with some short explanatory text. You don’t need more than a couple of sentences."
+            },
+            "HeroImage": {
+              "Paths": []
+            }
+          },
+          "TitlePart": {
+            "Title": "Landing Page"
+          },
+          "AutoroutePart": {
+            "Path": "prueba-de-inicio",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "BagPart": {
+            "ContentItems": [
+              {
+                "ContentItemId": "4erw28rax2c8a45dsm1ghe9f5e",
+                "ContentItemVersionId": null,
+                "ContentType": "BlockquoteSection",
+                "DisplayText": "Graphic headings can vary.",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-02-03T14:24:36.5679571Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "edtorr",
+                "BlockquoteSection": {
+                  "BlockquoteSectionImage": {
+                    "Paths": []
+                  }
+                },
+                "HtmlBodyPart": {
+                  "Html": "Graphic headings can be used a few different ways, depending on what your landing page is for. Highlight your values, specific program areas, or results."
+                },
+                "TitlePart": {
+                  "Title": "Graphic headings can vary."
+                }
+              },
+              {
+                "ContentItemId": "4rrhjsw6xqa254ggskdpv2wvxt",
+                "ContentItemVersionId": null,
+                "ContentType": "BlockquoteSection",
+                "DisplayText": "Stick to 6 or fewer words.",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-02-03T14:24:36.5716144Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "edtorr",
+                "BlockquoteSection": {
+                  "BlockquoteSectionImage": {
+                    "Paths": []
+                  }
+                },
+                "HtmlBodyPart": {
+                  "Html": "Keep body text to about 30 words. They can be shorter, but try to be somewhat balanced across all four. It creates a clean appearance with good spacing."
+                },
+                "TitlePart": {
+                  "Title": "Stick to 6 or fewer words."
+                }
+              },
+              {
+                "ContentItemId": "4fa0ps45j5kkh4r37cf578e0d3",
+                "ContentItemVersionId": null,
+                "ContentType": "BlockquoteSection",
+                "DisplayText": "Never highlight anything without a goal.",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-02-03T14:24:36.5742838Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "edtorr",
+                "BlockquoteSection": {
+                  "BlockquoteSectionImage": {
+                    "Paths": []
+                  }
+                },
+                "HtmlBodyPart": {
+                  "Html": "For anything you want to highlight here, understand what your users know now, and what activity or impression you want from them after they see it."
+                },
+                "TitlePart": {
+                  "Title": "Never highlight anything without a goal."
+                }
+              },
+              {
+                "ContentItemId": "4aspees1j79fy1f7b6hvbm60cy",
+                "ContentItemVersionId": null,
+                "ContentType": "BlockquoteSection",
+                "DisplayText": "Could also have 2 or 6.",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-02-03T14:24:36.5771576Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "edtorr",
+                "BlockquoteSection": {
+                  "BlockquoteSectionImage": {
+                    "Paths": []
+                  }
+                },
+                "HtmlBodyPart": {
+                  "Html": "In addition to your goal, find out your users’ goals. What do they want to know or do that supports your mission? Use these headings to show those."
+                },
+                "TitlePart": {
+                  "Title": "Could also have 2 or 6."
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ContentItemId": "4hr5agaj8e4t0tt3xwm40n6rxr",
+          "ContentItemVersionId": "4s4dk1wkcvqvvz4jqa3h8pbdnc",
+          "ContentType": "LiquidWidget",
+          "DisplayText": "Footer ",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-02-03T14:38:00.2631883Z",
+          "PublishedUtc": "2021-02-03T14:38:01.7052302Z",
+          "CreatedUtc": "2021-02-03T14:37:07.890627Z",
+          "Owner": "edtorr",
+          "Author": "edtorr",
+          "LiquidPart": {
+            "Liquid": "        <div class=\"grid-container usa-footer__return-to-top\">\r\n        <a href=\"#\">Return to top</a>\r\n        </div>\r\n        <div class=\"usa-footer__primary-section\">\r\n        <nav class=\"usa-footer__nav\">\r\n            <ul class=\"grid-row grid-gap\">\r\n            <li class=\"mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content\">\r\n                <a class=\"usa-footer__primary-link\">Primary link</a>\r\n            </li>\r\n            <li class=\"mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content\">\r\n                <a class=\"usa-footer__primary-link\">Primary link</a>\r\n            </li>\r\n            <li class=\"mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content\">\r\n                <a class=\"usa-footer__primary-link\">Primary link</a>\r\n            </li>\r\n            <li class=\"mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content\">\r\n                <a class=\"usa-footer__primary-link\">Primary link</a>\r\n            </li>\r\n            <li class=\"mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content\">\r\n                <a class=\"usa-footer__primary-link\">Primary link</a>\r\n            </li>\r\n            </ul>\r\n        </nav>\r\n        </div>\r\n    \r\n        <div class=\"usa-footer__secondary-section\">\r\n        <div class=\"grid-container\">\r\n            <div class=\"grid-row grid-gap\">\r\n            <div class=\"usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2\">\r\n                <div class=\"mobile-lg:grid-col-auto\">\r\n                <img class=\"usa-footer__logo-img\" src=\"/assets/img/logo-img.png\" alt=\"\">\r\n                </div>\r\n                <div class=\"mobile-lg:grid-col-auto\">\r\n                <h3 class=\"usa-footer__logo-heading\">Name</h3>\r\n                </div>\r\n            </div>\r\n            <div class=\"usa-footer__contact-links mobile-lg:grid-col-6\">\r\n                <div class=\"usa-footer__social-links grid-row grid-gap-1\">\r\n                <div class=\"grid-col-auto\">\r\n                    <a class=\"usa-social-link usa-social-link--facebook\">\r\n                    <span>Facebook</span>\r\n                    </a>\r\n                </div>\r\n                <div class=\"grid-col-auto\">\r\n                    <a class=\"usa-social-link usa-social-link--twitter\">\r\n                    <span>Twitter</span>\r\n                    </a>\r\n                </div>\r\n                <div class=\"grid-col-auto\">\r\n                    <a class=\"usa-social-link usa-social-link--youtube\">\r\n                    <span>YouTube</span>\r\n                    </a>\r\n                </div>\r\n                <div class=\"grid-col-auto\">\r\n                    <a class=\"usa-social-link usa-social-link--rss\">\r\n                    <span>RSS</span>\r\n                    </a>\r\n                </div>\r\n                </div>\r\n                <h3 class=\"usa-footer__contact-heading\">Contact Center</h3>\r\n                <address class=\"usa-footer__address\">\r\n                <div class=\"usa-footer__contact-info grid-row grid-gap\">\r\n                    <div class=\"grid-col-auto\">\r\n                    <a>(800) CALL-0000</a>\r\n                    </div>\r\n                    <div class=\"grid-col-auto\">\r\n                    <a>info@agency.gov</a>\r\n                    </div>\r\n                </div>\r\n                </address>\r\n            </div>\r\n            </div>\r\n        </div>\r\n        </div>"
+          },
+          "LayerMetadata": {
+            "Position": 2.0,
+            "Zone": "Footer",
+            "Layer": "Always",
+            "RenderTitle": false
+          }
+        },
+        {
+          "ContentItemId": "4gqncb0bwyhw63a4z47w6w744q",
+          "ContentItemVersionId": "4tpty40tb7cchvgm1k8c8cydx7",
+          "ContentType": "Menu",
+          "DisplayText": "Main Menu",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-02-03T14:40:58.891356Z",
+          "PublishedUtc": "2021-02-03T14:40:59.9711274Z",
+          "CreatedUtc": "2020-08-20T19:22:00.3524184Z",
+          "Owner": "edtorr",
+          "Author": "edtorr",
+          "MenuPart": {},
+          "TitlePart": {
+            "Title": "Main Menu"
+          },
+          "MenuItemsListPart": {
+            "MenuItems": [
+              {
+                "ContentItemId": "4dx7cy7wmzxp3rc007rv1g64c7",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": null,
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": null,
+                "LinkMenuItemPart": {
+                  "Name": "Home",
+                  "Url": "~/"
+                }
+              },
+              {
+                "ContentItemId": "4nwnnwx7aej2mr642mr29g21x9",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-01-27T17:31:35.9922893Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "edtorr",
+                "LinkMenuItemPart": {
+                  "Name": "Blog",
+                  "Url": "~/blog"
+                },
+                "LinkMenuItem": {}
+              },
+              {
+                "ContentItemId": "44awhd8s0qf3h2avbjgyjdrpng",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-02-01T21:34:03.8452177Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "edtorr",
+                "LinkMenuItemPart": {
+                  "Name": "About us ",
+                  "Url": "/about"
+                },
+                "LinkMenuItem": {}
+              }
+            ]
+          },
+          "AliasPart": {
+            "Alias": "main-menu"
+          }
+        },
+        {
+          "ContentItemId": "4m8dc5t6pwxks3tvj4gzvfwsds",
+          "ContentItemVersionId": "4dxqptg1gwfyztc5ykvmvdbe4z",
+          "ContentType": "BlogPost",
+          "DisplayText": "Blog Post 01",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-02-03T16:30:23.5675285Z",
+          "PublishedUtc": "2021-02-03T16:30:26.5623666Z",
+          "CreatedUtc": "2021-01-27T22:33:43.7014519Z",
+          "Owner": "edtorr",
+          "Author": "edtorr",
+          "TitlePart": {
+            "Title": "Blog Post 01"
+          },
+          "AutoroutePart": {
+            "Path": "blog/blogpost01",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci."
+            },
+            "Image": {
+              "Paths": []
+            },
+            "Tags": {
+              "TagNames": [],
+              "TaxonomyContentItemId": "4edc1rjkp8kbp4f4d35gn1ygdt",
+              "TermContentItemIds": []
+            },
+            "Category": {
+              "TaxonomyContentItemId": "45z057jz6cpm6tjz323h1zevcj",
+              "TermContentItemIds": []
+            },
+            "Summary": {
+              "Text": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci."
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": null
+          },
+          "HtmlBodyPart": {
+            "Html": "<p>Lorem ipsum dolor sit amet, consectetuer\nadipiscing elit.Maecenas\nporttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus\nlectus malesuada libero, sit amet commodo magna eros quis urna. Nunc\nviverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\negestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec\nlaoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at,\nvulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis\neleifend. Ut nonummy.</p><p>\n\n\n\n\n\n\n\n\n\n</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p>\n\n<h2>Sub heading</h2><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><h2>Sub heading</h2><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy</p>"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "4r0x1czkfkz5526fj9rymysxm0",
+            "Order": 0
+          }
+        },
+        {
+          "ContentItemId": "4f3q0z54aenn6zj7ydy8dtszdq",
+          "ContentItemVersionId": "4509q1f4ttjmk2hmnssfpxzr4k",
+          "ContentType": "BlogPost",
+          "DisplayText": "Blog Post 02",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-02-03T16:32:49.4228457Z",
+          "PublishedUtc": "2021-02-03T16:32:51.3128525Z",
+          "CreatedUtc": "2021-01-27T22:18:55.4273928Z",
+          "Owner": "edtorr",
+          "Author": "edtorr",
+          "TitlePart": {
+            "Title": "Blog Post 02"
+          },
+          "AutoroutePart": {
+            "Path": "blog/building-distributed-teams",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "At the General Services Administration’s 18F, we’ve seen that remote work can make teams happier, more productive, and more inclusive. Organizing ourselves in a remote-first way has improved our morale and allowed us to recruit and retain talent from all across the country. But building great distributed teams takes real work. "
+            },
+            "Image": {
+              "Paths": []
+            },
+            "Tags": {
+              "TagNames": [],
+              "TaxonomyContentItemId": "4edc1rjkp8kbp4f4d35gn1ygdt",
+              "TermContentItemIds": []
+            },
+            "Category": {
+              "TaxonomyContentItemId": "45z057jz6cpm6tjz323h1zevcj",
+              "TermContentItemIds": []
+            },
+            "Summary": {
+              "Text": "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.\r\n\r\nLorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci."
+            }
+          },
+          "MarkdownBodyPart": {
+            "Markdown": null
+          },
+          "ContainedPart": {
+            "ListContentItemId": "4r0x1czkfkz5526fj9rymysxm0",
+            "Order": 0
+          },
+          "HtmlBodyPart": {
+            "Html": "<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><h2>Sub heading</h2><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><h2>Sub heading</h2><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna. Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy</p>"
+          }
+        },
+        {
+          "ContentItemId": "4a68tk44dc0nn0462zz9trkfwn",
+          "ContentItemVersionId": "4arc50tf86605y4f398rvbermf",
+          "ContentType": "BlogPost",
+          "DisplayText": "A very long blog header that has a lot of detail but is still relevant",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-02-03T16:34:29.5968566Z",
+          "PublishedUtc": "2021-02-03T16:34:32.9690846Z",
+          "CreatedUtc": "2020-08-20T19:22:03.6072655Z",
+          "Owner": "edtorr",
+          "Author": "edtorr",
+          "TitlePart": {
+            "Title": "A very long blog header that has a lot of detail but is still relevant"
+          },
+          "ContainedPart": {
+            "ListContentItemId": "4r0x1czkfkz5526fj9rymysxm0",
+            "Order": 0
+          },
+          "MarkdownBodyPart": {
+            "Markdown": null
+          },
+          "AutoroutePart": {
+            "Path": "blog/post-1",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "BlogPost": {
+            "Subtitle": {
+              "Text": "Problems look mighty small from 150 miles up"
+            },
+            "Image": {
+              "Paths": [
+                "post-bg.jpg"
+              ]
+            },
+            "Tags": {
+              "TermContentItemIds": [
+                "44waxp78x1y9nwx6nfc38kapn1",
+                "4hdgyqc2cm4mx66mvpdygnne5p",
+                "4phfwz134qrt37a2wvykqfrjwd"
+              ],
+              "TaxonomyContentItemId": "4edc1rjkp8kbp4f4d35gn1ygdt",
+              "TagNames": [
+                "Earth",
+                "Exploration",
+                "Space"
+              ]
+            },
+            "Category": {
+              "TermContentItemIds": [
+                "47yte49qmkf373t1p2xm4wnkx2"
+              ],
+              "TaxonomyContentItemId": "45z057jz6cpm6tjz323h1zevcj"
+            },
+            "Summary": {
+              "Text": "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.\r\n\r\nAenean nec lorem. In porttitor. Donec laoreet nonummy augue.\r\n\r\nSuspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.\r\n\r\nNunc viverra imperdiet enim. Fusce est. Vivamus a tellus."
+            }
+          },
+          "HtmlBodyPart": {
+            "Html": "<p><span style=\"font-size: 1rem\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.</span><br></p><p>Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p><p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.</p><p>Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p><p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.Lorem ipsum dolor sit amet, consectetuer\nadipiscing elit.Maecenas\nporttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus\nlectus malesuada libero, sit amet commodo magna eros quis urna.</p><p>Nunc\nviverra imperdiet enim. Fusce est. Vivamus a tellus.</p><p>Pellentesque\nhabitant morbi tristique senectus et netus et malesuada fames ac turpis\negestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec\nlaoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at,\nvulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis\neleifend. Ut nonummy.</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.</p><p>Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p><p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.Proin pharetra nonummy pede. Mauris et orci.</p><p>Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.</p><p>Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</p>"
+          }
+        },
+        {
+          "ContentItemId": "4r0x1czkfkz5526fj9rymysxm0",
+          "ContentItemVersionId": "4t6j8g1j13yf0z8dj4wh8yabdp",
+          "ContentType": "Blog",
+          "DisplayText": "Blog",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-02-03T16:35:10.2149549Z",
+          "PublishedUtc": "2021-02-03T16:35:12.3265031Z",
+          "CreatedUtc": "2020-08-20T19:22:02.8504329Z",
+          "Owner": "edtorr",
+          "Author": "edtorr",
+          "TitlePart": {
+            "Title": "Blog"
+          },
+          "HtmlBodyPart": {
+            "Html": "This is the description of your blog"
+          },
+          "AutoroutePart": {
+            "Path": "blog",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "ListPart": {
+            "FeedProxyUrl": null,
+            "FeedItemsCount": 20
+          },
+          "Blog": {
+            "Image": {
+              "Paths": [
+                "home-bg.jpg"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

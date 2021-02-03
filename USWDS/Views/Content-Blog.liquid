@@ -1,0 +1,34 @@
+{% zone "Header" %}
+<!-- Page Header -->
+
+<!-- Set your background image for this header on the line below. -->
+{% assign imagePath = Model.ContentItem.Content.Blog.Image.Paths.first %}
+{% if imagePath == nil %}
+<header class="masthead" style="background-image: url('{{ " ~/TheBlogTheme/img/home-bg.jpg" | href }}')">
+  {% else %}
+  {% assign anchor = Model.ContentItem.Content.Blog.Image.Anchors.first %}
+  <header class="masthead"
+    style="background-image: url('{{ imagePath | asset_url | resize_url: profile: 'banner', anchor: anchor }}')">
+    {% endif %}
+
+    <div id="blog" class="bg-primary-darker usa-content font-serif-lg padding-y-6">
+      <div class="grid-container">
+        <h1 class="text-normal text-white margin-0">{{ Model.ContentItem.DisplayText }}</h1>
+        <span class="text-base-lighter display-block padding-top-1 text-light">{{ Model.Content.HtmlBodyPart |
+          shape_render }}</span>
+      </div>
+    </div>
+
+  </header>
+  {% endzone %}
+
+  {% shape_remove_item Model.Content "HtmlBodyPart" %}
+  {% shape_remove_item Model.Content "Blog-Image" %}
+
+  <div class="grid-container padding-left-0">
+    <div class="grid-row padding-left-0">
+      <div class="desktop:grid-col-8 usa-prose padding-right-0">
+        {{ Model.Content | shape_render }}
+      </div>
+    </div>
+  </div>

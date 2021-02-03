@@ -1,0 +1,58 @@
+<main id="main-content">
+    
+
+  {% assign imagePath = Model.ContentItem.Content.LandingPage.HeroImage.Paths.first %}
+  {% if imagePath == nil %}
+    <section class="usa-hero" aria-label="Introduction" style="background-image: url('{{ "~/USWDS/img/hero.png" | href }}')">
+  {% else %}
+      {% assign anchor = Model.ContentItem.Content.Blog.Image.Anchors.first %}
+      <section class="usa-hero" aria-label="Introduction" style="background-image: url('{{ imagePath | asset_url | resize_url: profile: 'banner', anchor: anchor }}')">
+  {% endif %}
+
+        <div class="grid-container">
+          <div class="usa-hero__callout">
+            <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt"> {{ Model.ContentItem.Content.LandingPage.Herocallout.Text }}</span>{{ Model.ContentItem.Content.LandingPage.Supportcallout.Text }}</h1><p>{{ Model.ContentItem.Content.LandingPage.Herocallout.Text }}</span> {{ Model.ContentItem.Content.LandingPage.Textcallout.Text }}</p><a class="usa-button" href="javascript:void(0)">{{ Model.ContentItem.Content.LandingPage.Calltoaction.Text }}</a>
+          </div>
+        </div>
+      </section>
+  
+    <section class="grid-container usa-section">
+      <div class="grid-row grid-gap">
+        <div class="tablet:grid-col-4">
+          <h2 class="font-heading-xl margin-top-0 tablet:margin-bottom-0">{{ Model.ContentItem.Content.LandingPage.Taglinehighlight.Text }}</h2>
+        </div>
+        <div class="tablet:grid-col-8 usa-prose">
+          <p>{{ Model.ContentItem.Content.LandingPage.Tagline.Text }}</p>
+        </div>
+      </div>
+    </section>
+    
+    {% shape_remove_item Model.Content "LandingPage-Herocallout" %}
+    {% shape_remove_item Model.Content "LandingPage-Supportcallout" %}
+    {% shape_remove_item Model.Content "LandingPage-Calltoaction" %}
+    {% shape_remove_item Model.Content "LandingPage-Sectionheading" %}
+    {% shape_remove_item Model.Content "LandingPage-Sectiontext" %}
+    {% shape_remove_item Model.Content "LandingPage-Textcallout" %}
+    {% shape_remove_item Model.Content "LandingPage-Taglinehighlight" %}
+    {% shape_remove_item Model.Content "LandingPage-Tagline" %}
+    {% shape_remove_item Model.Content "LandingPage-Sectioncalltoaction" %}
+    {% shape_remove_item Model.Content "LandingPage-HeroImage" %}
+
+    {{ Model.Content | shape_render }}
+  
+    <section id="test-section-id" class="usa-section">
+      <div class="grid-container">
+        <h2 class="font-heading-xl margin-y-0">{{ Model.ContentItem.Content.LandingPage.Sectionheading.Text }}</h2>
+        <p class="usa-intro">{{ Model.ContentItem.Content.LandingPage.Sectiontext.Text }}</p>
+        <a class="usa-button usa-button--big" href="#">{{ Model.ContentItem.Content.LandingPage.Sectioncalltoaction.Text }}</a>
+      </div>
+    </section>
+    
+  </main>
+<!-- 
+  {% shape_remove_item Model.ContentItem.Content.LandingPage "Text" %}
+  {% shape_remove_item Model.Content "Supportcallout" %}
+  {% shape_remove_item Model.Content "Textcallout" %}
+  {{ Model.ContentItem.Content.BagPart | shape_render }} -->
+
+  

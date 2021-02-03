@@ -1,0 +1,15 @@
+{% assign name = Model.PartFieldDefinition.PartDefinition.Name | append: '-' | append: Model.PartFieldDefinition.Name | html_class %}
+
+<div class="d-inline term-badge field field-type-taxonomyfield field-name-{{ name }}">
+    {% assign tagTerms = Model.Field | taxonomy_terms %}
+    {% for tagTerm in tagTerms %}
+    {% a display_for: tagTerm %}
+
+    <span class="usa-tag"> {{ tagTerm.DisplayText }} </span>
+
+    {% enda %}
+    {% endfor %}
+</div>
+
+
+

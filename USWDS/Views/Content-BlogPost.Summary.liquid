@@ -1,0 +1,27 @@
+<div class="grid-container">
+    <div class="grid-row">
+        <div class="desktop:grid-col-12 usa-prose padding-right-0">
+            <div class="padding-bottom-5 margin-top-4 usa-prose border-bottom-05 border-base-lightest">
+
+                <h2 class="title">
+                    <a class="usa-link text-no-underline" href="{{ Model.ContentItem | display_url }}">{{
+                        Model.ContentItem.DisplayText }}</a>
+                </h2>
+
+                {% assign format = "MMMM dd, yyyy" | t %}
+                {% assign dateTime = "DateTime" | shape_new: utc: Model.ContentItem.CreatedUtc, format: format | shape_stringify %}
+                <div class="text-base margin-bottom-2">
+                    <div class="margin-top-neg-105">
+                        By <span class="text-bold"><a href="#">{{ Model.ContentItem.Author }}</a></span> · {{ "on {0}" |
+                        t: dateTime | raw }}
+                    </div>
+                </div>
+                <div>
+                    <p>{{ Model.ContentItem.Content.BlogPost.Summary.Text }}</p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+    {% shape_clear_alternates Model %}
+    {% shape_type Model "MenuItemLink" %}
+
+    {% if Model.HasItems %}
+        <li class="usa-nav__primary-item">
+    {% else %} 
+        <li class="usa-nav__primary-item usa-nav__submenu-item">
+    {% endif %}
+    
+        {{ Model | shape_render }}
+
+        {% if Model.HasItems %}
+
+            <ul id="basic-nav-section-one" class="usa-nav__submenu">
+                
+                {% for item in Model.Items %}
+                {{ item | shape_render }}
+                {% endfor %}
+                
+            </ul>
+            
+        {% endif %}
+
+
+    {% if Model.HasItems %}
+        </li>
+    {% else %} 
+        </li>
+    {% endif %}
+
+
+
+    <!-- {% scriptblock at: "Foot" %} -->
+
+    <!-- {% endscriptblock %} -->
+
+

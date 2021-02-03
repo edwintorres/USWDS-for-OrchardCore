@@ -1,0 +1,8 @@
+<div class="usa-nav__inner">
+    <button class="usa-nav__close"><img src="../../dist/img/close.svg" role="img" alt="close"></button>
+    <ul class="usa-nav__primary usa-accordion">
+        {% for item in Model.Items %}
+        {{ item | shape_render }}
+        {% endfor %}
+    </ul>
+</div>

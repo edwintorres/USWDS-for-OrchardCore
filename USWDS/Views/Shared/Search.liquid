@@ -1,0 +1,40 @@
+{% zone "Header" %}
+<!-- Page Header -->
+
+<header class="masthead">
+
+    <div id="blog" class="bg-primary-darker usa-content font-serif-lg padding-y-6">
+        <div class="grid-container">
+            <h1 class="text-normal text-white margin-0">Search</h1>
+        </div>
+    </div>
+
+</header>
+{% endzone %}
+
+
+
+
+
+<div class="usa-section">
+    <div class="grid-container">
+        <div class="grid-row grid-gap">
+            <main class="usa-layout-docs__main desktop:grid-col-9 usa-prose usa-layout-docs" id="main-content">
+
+                {{ Model.SearchForm | shape_render }}
+
+                {% unless Model.SearchResults %}
+                {% if Model.Terms %}
+                {% helper "span", validation_for: "Terms", class: "alert alert-danger" %}
+                {% endif %}
+                {% endunless %}
+
+
+                {{ Model.SearchResults | shape_render }}
+
+                {{ Model.Pager | shape_render }}
+
+            </main>
+        </div>
+    </div>
+</div>

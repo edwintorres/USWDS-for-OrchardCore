@@ -1,0 +1,9 @@
+<section class="usa-graphic-list usa-section usa-section--dark">
+    <div class="grid-container">
+        <div class="usa-graphic-list__row grid-row grid-gap">
+            {% for item in Model.ContentItems %}
+                {{ item | shape_build_display: "Detail" | shape_render }}
+            {% endfor %}
+        </div>
+    </div>
+</section>

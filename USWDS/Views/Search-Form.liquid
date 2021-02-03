@@ -1,0 +1,10 @@
+<section aria-label="Big search component">
+    <form action="{{ "~/search" | href }}" method="get" class="usa-search usa-search--big" role="search">
+      <label class="usa-sr-only" for="search-field-en-big">Search</label>
+      <input class="usa-input" id="search-field-en-big" type="search" name="Terms" value="{{ Model.Terms }}" placeholder="{{ "Enter your search term(s)" | t }}" autofocus >
+      <button class="usa-button" type="submit">
+        <span class="usa-search__submit-text">{{ "Search" | t }}</span>
+      </button>
+    </form>
+  </section>
+

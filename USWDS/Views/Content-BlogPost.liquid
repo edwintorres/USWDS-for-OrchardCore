@@ -1,0 +1,33 @@
+<div class="usa-section">
+    <div class="grid-container">
+        <div class="grid-row grid-gap">
+      
+
+            <main class="usa-layout-docs__main desktop:grid-col-9 usa-prose usa-layout-docs" id="main-content">
+                <h1>{{ Model.ContentItem.DisplayText }}</h1>
+                <span class="post-date site-subheading" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                    By <a class="post-author" itemprop="name" href="/author/{{ Model.ContentItem.Author }}">
+                        {{ Model.ContentItem.Author }}</a> | 
+                </span>
+                {% assign format = "MMMM dd, yyyy" | t %}
+                {% assign dateTime = "DateTime" | shape_new: utc: Model.ContentItem.CreatedUtc, format: format | shape_stringify %}
+                <time class="post-date site-subheading" datetime="2020-09-08T00:00:00">
+                    {{ "on {0}" | t: dateTime | raw }}
+                </time>
+                
+                <p class="usa-intro">{{ Model.ContentItem.Content.BlogPost.Summary.Text }}</p>
+
+                {{ Model.Content.HtmlBodyPart | shape_render }}
+
+                {{ Model.Content.ContentsMetadata | shape_render }}
+                {{ Model.Content.MarkdownBodyPart | shape_render }}
+                {{ Model.Content.BlogPost-Category | shape_render }}
+                {{ Model.Content.BlogPost-Tags | shape_render }}
+                {{ Model.Content.BlogPost-Tags-TaxonomyField-Tags.Display | shape_render }}
+                Tags: {{ Model.ContentItem.Content.BlogPost.Tags.TagNames | json  }}
+
+            </main>
+        </div>
+    </div>
+</div>
+

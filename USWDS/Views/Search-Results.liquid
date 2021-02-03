@@ -1,0 +1,17 @@
+
+{% if Model.ContentItems != null and Model.ContentItems.size > 0 %}
+
+    {% for item in Model.ContentItems %}
+
+        {{ item | shape_build_display: "Summary" | shape_render }}
+
+    {% endfor %}
+
+{% else %}
+    <div class="usa-alert">
+        <div class="usa-alert__body">
+          <h3 class="usa-alert__heading">Result</h3>
+          <p class="usa-alert__text">{{"There are no results." | t }}</p>
+        </div>
+      </div>
+{% endif %}

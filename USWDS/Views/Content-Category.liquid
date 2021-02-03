@@ -1,0 +1,20 @@
+{% zone "Header" %}
+    <!-- Page Header -->
+
+    
+    <header class="masthead">
+  
+
+        <div id="blog" class="bg-primary-darker usa-content font-serif-lg padding-y-6">
+        <div class="grid-container">
+          <h1 class="text-normal text-white margin-0 {{ Model.ContentItem.Content.Category.Icon.Text }}">{{ Model.ContentItem.DisplayText }}</h1>
+          <span class="text-base-lighter display-block padding-top-1 text-light"></span>
+        </div>
+      </div>
+
+    </header>
+{% endzone %}
+
+
+{{ Model.Content.ContentsMetadata | shape_render }}
+{{ Model.Content.TermPart | shape_render }}
